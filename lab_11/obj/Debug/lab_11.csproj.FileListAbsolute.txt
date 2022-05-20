@@ -1,0 +1,11 @@
+C:\Study\computer_graphics\lab_11\lab_11\bin\Debug\lab_11.exe.config
+C:\Study\computer_graphics\lab_11\lab_11\bin\Debug\lab_11.exe
+C:\Study\computer_graphics\lab_11\lab_11\bin\Debug\lab_11.pdb
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.csproj.AssemblyReference.cache
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.csproj.SuggestedBindingRedirects.cache
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.Properties.Resources.resources
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.csproj.GenerateResource.cache
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.csproj.CoreCompileInputs.cache
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.exe
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.pdb
+C:\Study\computer_graphics\lab_11\lab_11\obj\Debug\lab_11.MainForm.resources
