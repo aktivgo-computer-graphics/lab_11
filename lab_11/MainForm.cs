@@ -25,8 +25,7 @@ namespace lab_11
         
         private void MainForm_Load(object sender, EventArgs e)
         {
-            bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
-            graph = Graphics.FromImage(bmp);
+            graph = CreateGraphics();
             timer = new Timer();
             timer.Interval = 1;
             timer.Tick += timer_tick;
@@ -47,8 +46,19 @@ namespace lab_11
         
         private void button1_Click(object sender, EventArgs e)
         {
+            bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
+            graph.Clear(Color.White);
             task = 1;
             DrawLine(100, 100, ClientSize.Width - 100, ClientSize.Height - 100);
+            graph.DrawImage(bmp, 0, 0);
+        }
+        
+        private void button2_Click(object sender, EventArgs e)
+        {
+            bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
+            graph.Clear(Color.White);
+            task = 2;
+            DrawLineBrezenhem(100, 100, ClientSize.Width - 100, ClientSize.Height - 100);
             graph.DrawImage(bmp, 0, 0);
         }
 
@@ -56,8 +66,8 @@ namespace lab_11
         {
             if (x1 != x2)
             {
-                double m = (y2 - y1) / (x2 - x1);
-                double y = y1;
+                float m = (float)(y2 - y1) / (x2 - x1);
+                float y = y1;
                 for (int x = x1; x < x2; x++)
                 {
                     bmp.SetPixel(x, (int)Math.Round(y), Color.Black);
@@ -73,6 +83,61 @@ namespace lab_11
             }
         }
         
+        private void DrawLineBrezenhem(int x1, int y1, int x2, int y2)
+        {
+            int x = x1;
+            int y = y1;
+            int dx = Math.Abs(x2 - x1);
+            int dy = Math.Abs(y2 - y1);
+            int s1 = Math.Sign(x2 - x1);
+            int s2 = Math.Sign(y2 - y1);
+
+            bool l;
+            float e = 0;
+
+            if (dy > dx)
+            {
+                (dy, dx) = (dx, dy);
+                l = true;
+            }
+            else
+            {
+                l = false;
+                e = 2 * dx * dy;
+            }
+
+            for (int i = 1; i < dx; i++)
+            {
+                bmp.SetPixel(x, Math.Abs(y) % ClientSize.Height, Color.Black);
+                while (e >= 0)
+                {
+                    if (l)
+                    {
+                        x += s1;
+                    }
+                    else
+                    {
+                        y += s2;
+                    }
+
+                    e -= 2 * dx;
+                }
+
+                if (l)
+                {
+                    y += s2;
+                }
+                else
+                {
+                    x += s1;
+                }
+                
+                e += 2 * dx;
+            }
+            
+            bmp.SetPixel(x, Math.Abs(y) % ClientSize.Height, Color.Red);
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             bmp.Dispose();
