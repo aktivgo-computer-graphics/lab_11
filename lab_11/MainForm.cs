@@ -14,10 +14,7 @@ namespace lab_11
     {
         private Graphics graph;
         private Bitmap bmp;
-        private Timer timer;
 
-        private int task;
-        
         public MainForm()
         {
             InitializeComponent();
@@ -26,29 +23,12 @@ namespace lab_11
         private void MainForm_Load(object sender, EventArgs e)
         {
             graph = CreateGraphics();
-            timer = new Timer();
-            timer.Interval = 1;
-            timer.Tick += timer_tick;
-            //timer.Enabled = true;
-            task = 0;
         }
 
-        private void timer_tick(object sender, EventArgs e)
-        {
-            switch (task)
-            {
-                case 1:
-                    break;
-                case 2:
-                    break;
-            }
-        }
-        
         private void button1_Click(object sender, EventArgs e)
         {
             bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
             graph.Clear(Color.White);
-            task = 1;
             DrawLine(100, 100, ClientSize.Width - 100, ClientSize.Height - 100);
             graph.DrawImage(bmp, 0, 0);
         }
@@ -57,7 +37,6 @@ namespace lab_11
         {
             bmp = new Bitmap(ClientSize.Width, ClientSize.Height);
             graph.Clear(Color.White);
-            task = 2;
             DrawLineBrezenhem(100, 100, ClientSize.Width - 100, ClientSize.Height - 100);
             graph.DrawImage(bmp, 0, 0);
         }
