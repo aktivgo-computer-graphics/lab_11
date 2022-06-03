@@ -29,6 +29,11 @@ namespace lab_11
             }
         }
 
+        public bool IsFillPixel(Point point)
+        {
+            return gridBool[point.X][point.Y];
+        }
+
         public void SetPixel(int x, int y, Color color)
         {
             if (x < gridBool.Count && y < gridBool[0].Count)

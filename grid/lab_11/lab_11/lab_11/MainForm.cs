@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -28,9 +29,10 @@ namespace lab_11
             int cellCountX = (int)Math.Ceiling((float)ClientSize.Width / k) + 1;
             int cellCountY = (int)Math.Ceiling((float)ClientSize.Height / k);
             Grid grid = new Grid(cellCountX, cellCountY, k);
-            DrawLine(grid, 10, 10, 100,  100);                             // 45
-            //DrawLine(grid, 10, cellCountY / 2, cellCountX - 10, cellCountY / 2);   // 0
-            //DrawLine(grid, cellCountX / 2, 10, cellCountX / 2, cellCountY - 10);   // 90
+            //DrawLine(grid, 20, 20, 60,  60);                              // 45
+            //DrawLine(grid, 20, 20, 60,  100);
+            //DrawLine(grid, 10, cellCountY / 2, cellCountX - 10, cellCountY / 2);  // 0
+            DrawLine(grid, cellCountX / 2, 10, cellCountX / 2, cellCountY - 10);  // 90
             grid.DrawGrid(Graph);
         }
 
@@ -41,7 +43,9 @@ namespace lab_11
             int cellCountX = (int)Math.Ceiling((float)ClientSize.Width / k) + 1;
             int cellCountY = (int)Math.Ceiling((float)ClientSize.Height / k);
             Grid grid = new Grid(cellCountX, cellCountY, k);
-            DrawBrezenhem(grid, 10, 10, cellCountX - 10, cellCountY - 10, Color.Black);
+            //DrawBrezenhem(grid, 10, 10, cellCountX - 10, cellCountY - 10, Color.Black);
+            DrawBrezenhem(grid, cellCountX / 2, 10, cellCountX / 2, cellCountY - 10, Color.Black);
+            //DrawBrezenhem(grid, 10, 10, 60, 60, Color.Black);
             grid.DrawGrid(Graph);
         }
         
@@ -53,6 +57,7 @@ namespace lab_11
             int cellCountY = (int)Math.Ceiling((float)ClientSize.Height / k);
             Grid grid = new Grid(cellCountX, cellCountY, k);
             DrawCircle(grid, 33, cellCountX, cellCountY, Color.Black);
+            FillCircle(grid, new Point(cellCountX / 2, cellCountY / 2), Color.Aqua);
             grid.DrawGrid(Graph);
         }
         
@@ -202,6 +207,80 @@ namespace lab_11
             grid.SetPixel(middleX - y, middleY - x, color);
             grid.SetPixel(middleX - y, middleY + x, color);
             grid.SetPixel(middleX - x, middleY + y, color);
+        }
+
+        private void FillCircle(Grid grid, Point start, Color color)
+        {
+            Stack<Point> stack = new Stack<Point>();
+            stack.Push(start);
+
+            while (stack.Count != 0)
+            {
+                Point point = stack.Pop();
+                grid.SetPixel(point.X, point.Y, Color.Aqua);
+                
+                int xw = point.X;
+                point.X += 1;
+                while (!grid.IsFillPixel(point))
+                {
+                    grid.SetPixel(point.X, point.Y, Color.Aqua);
+                    point.X += 1;
+                }
+
+                int xr = point.X - 1;
+                point.X = xw;
+                point.X -= 1;
+
+                while (!grid.IsFillPixel(point))
+                {
+                    grid.SetPixel(point.X, point.Y, Color.Aqua);
+                    point.X -= 1;
+                }
+
+                int xl = point.X + 1;
+                for (int j = -1; j < 2; j+=3)
+                {
+                    point.X = xl;
+                    point.Y += j;
+                    while (point.X <= xr)
+                    {
+                        bool fl = false;
+                        while (!grid.IsFillPixel(point) || grid.IsFillPixel(point) && point.X < xr)
+                        {
+                            point.X += 1;
+                            if (!fl)
+                            {
+                                fl = true;
+                            }
+                        }
+
+                        if (fl)
+                        {
+                            if (point.X == xr && !grid.IsFillPixel(point))
+                            {
+                                stack.Push(point);
+                            }
+                            else
+                            {
+                                stack.Push(new Point(point.X - 1, point.Y));
+                            }
+
+                            fl = false;
+                        }
+
+                        int xb = point.X;
+                        while (!grid.IsFillPixel(point) || grid.IsFillPixel(point) && point.X < xr)
+                        {
+                            point.X += 1;
+                        }
+
+                        if (point.X == xb)
+                        {
+                            point.X += 1;
+                        }
+                    }
+                }
+            }
         }
     }
 }
